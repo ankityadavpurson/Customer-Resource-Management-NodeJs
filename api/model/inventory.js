@@ -1,5 +1,14 @@
 const mongoose = require('mongoose');
 
+const categories = [
+    'Stationary',
+    'Grocery',
+    'Vegetable',
+    'Cold Drinks',
+    'T-Shirt',
+    'Electronics'
+];
+
 const inventorySchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     inventoryId: {
@@ -12,7 +21,8 @@ const inventorySchema = mongoose.Schema({
     },
     quantity: {
         type: Number,
-        require: true
+        require: true,
+        min: 0
     },
     price: {
         type: Number,
@@ -24,14 +34,8 @@ const inventorySchema = mongoose.Schema({
     },
     type: {
         type: String,
-        enum: [
-            'Stationary',
-            'Grocery',
-            'Vegitable',
-            'Cold Drinks',
-            'T-Shirt'
-        ],
-        default: 'Stationary'
+        enum: categories,
+        default: 'any'
     },
     expiryDate: {
         type: String
@@ -80,4 +84,18 @@ const update = record => {
     );
 };
 
-module.exports = { getItem, add, remove, update };
+const updateQuantity = record => {
+
+    const { clientId, itemsPurchaseId, quantity } = record;
+
+    const Inventory = mongoose.model(clientId + '.inventory', inventorySchema)
+
+    return Inventory.updateOne(
+        { inventoryId: itemsPurchaseId },
+        {
+            $inc: { quantity: -(quantity) }
+        }
+    );
+};
+
+module.exports = { getItem, add, remove, update, updateQuantity, categories };

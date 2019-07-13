@@ -5,8 +5,12 @@ const Client = require('../model/client');
 const response = require('../services/response');
 const { dcrypt } = require('../services/encrypto');
 const mail = require('../services/sendMails');
+const validateClient = require('../services/joiSchema');
 
 router.post('/add', (_req, _res, _next) => {
+    const result = validateClient(_req.body);
+    if (result) return response(_res, 400, result, 0);
+
     Client.add(_req.body)
         .then(result => {
             result.password = 0;

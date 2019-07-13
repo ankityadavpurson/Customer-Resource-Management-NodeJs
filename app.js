@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 
 // Routes
 const client = require('./api/routes/client');
@@ -11,12 +10,6 @@ const inventory = require('./api/routes/inventory');
 const billing = require('./api/routes/billing');
 
 const logger = require('./api/services/logger');
-
-// const MONGO_URL = 'mongodb+srv://crmmajorproject:' + process.env.MONGO_PASS + '@cluster0-nggmm.mongodb.net/CRM?retryWrites=true&w=majority';
-const MONGO_URL = 'mongodb://127.0.0.1:27017/TEST';
-mongoose.connect(MONGO_URL, { useCreateIndex: true, useNewUrlParser: true })
-    .then(console.log("MongoDB connected :)"))
-    .catch(error => console.log("Connection to Mongo :( ", error));
 
 //handling CORS...
 app.use(cors());
@@ -49,7 +42,7 @@ app.use((error, _req, _res, _next) => {
     _res.status(error.status || 500)
         .json({
             responseCode: error.status || 500,
-            message: 'Invalid routes ...',
+            message: 'Server Not Responding ...',
             error: error.message
         });
 });
