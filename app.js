@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 
 // Routes
 const client = require('./api/routes/client');
-const login = require('./api/routes/login');
 const inventory = require('./api/routes/inventory');
 const billing = require('./api/routes/billing');
 
@@ -21,7 +20,6 @@ app.use(logger);
 
 // Handle Routes
 app.use('/client', client);
-app.use('/login', login);
 app.use('/inventory', inventory);
 app.use('/billing', billing);
 
@@ -33,6 +31,7 @@ app.use(function ignoreFavicon(_req, _res, _next) {
 
 //handling errors...
 app.use((_req, _res, _next) => {
+    console.log(_req.body);
     const error = new Error('Not Found!');
     error.status = 404;
     _next(error);

@@ -49,7 +49,7 @@ const clientSchema = mongoose.Schema({
 const Client = mongoose.model('Client', clientSchema);
 
 const getClient = clientId => {
-    return Client.find({ clientId });
+    return clientId ? Client.findOne({ clientId }) : Client.find();
 };
 
 const add = record => {
@@ -62,4 +62,8 @@ const add = record => {
     }).save();
 };
 
-module.exports = { getClient, add };
+const updateAccessToken = (condition, token) => {
+    return Client.updateOne(condition, { $set: { accessToken: token } })
+}
+
+module.exports = { getClient, add, updateAccessToken };
