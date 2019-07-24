@@ -1,11 +1,11 @@
-const response = (res, responseCode, message, data) => {
+module.exports = (response, responseCode, responseMessage, responseData) => {
 
-    if (process.env.DEV) { console.log({ responseCode, message, data }); }
+    if (process.env.DEV) { console.log({ responseCode, responseMessage, responseData }); }
 
-    return res.status(responseCode).json({
-        responseCode, message, data
+    return response.status(responseCode).json({
+        code: responseCode,
+        message: responseMessage,
+        data: responseData
     });
 
-}
-
-module.exports = response;
+};

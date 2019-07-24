@@ -107,7 +107,7 @@ async function saveBill(clientId, mobileNo, bill, _res, name, email) {
 
     // Send Bill to customer
     // via mail
-    await sendBillToCustomer(clientId, mobileNo, bill);
+    // await sendMail(clientId, mobileNo, bill);
     // via SMS
     // await sendSMS(mobileNo, name);
 
@@ -133,25 +133,29 @@ async function saveBill(clientId, mobileNo, bill, _res, name, email) {
 
 async function sendSMS(mobileNo, name) {
     const smsAPI = 'http://localhost:8080/sms/send';
-    const res = await fetch(
-        smsAPI,
-        {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                "phone": mobileNo,
-                "message": `Dear ${name}, Thank you for shopping with us.`
-                    + `Your valuable feedback will help us in improving the shopping experience.`
-                    + `Kindly give us your feedback by clicking on https://forms.gle/2ajCaBUpoxMi9BgV8`
-                    + `Have a nice day!`
-                    + `Team CRM.`
-            })
-        });
-    const data = await res.json();
-    console.log(data);
+    try {
+        const res = await fetch(
+            smsAPI,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    "phone": mobileNo,
+                    "message": `Dear ${name}, Thank you for shopping with us.`
+                        + `Your valuable feedback will help us in improving the shopping experience.`
+                        + `Kindly give us your feedback by clicking on https://forms.gle/2ajCaBUpoxMi9BgV8`
+                        + `Have a nice day!`
+                        + `Team CRM.`
+                })
+            });
+        const data = await res.json();
+        console.log(data);
+    } catch (error) {
+        console.log(error);
+    }
 }
 
-async function sendBillToCustomer(clientId, mobileNo, bill) {
+async function sendMail(clientId, mobileNo, bill) {
     try {
         const custmer = await Customer.getCustomer(clientId, mobileNo);
 
