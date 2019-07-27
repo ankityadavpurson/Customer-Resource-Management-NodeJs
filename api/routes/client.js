@@ -17,7 +17,6 @@ module.exports = router;
 
 async function loginClient(_req, _res, _next) {
     const { clientId, password } = _req.body;
-    console.log(_req.body);
     try {
         const client = await Client.getClient(clientId);
         if (client && crypt(password) === client.password) {
@@ -27,7 +26,7 @@ async function loginClient(_req, _res, _next) {
             const updateToken = await Client.updateAccessToken({ clientId }, accessToken);
 
             if (updateToken.nModified === 1)
-                response(_res, 200, 'Client Foud', { clientId: _id, accessToken });
+                response(_res, 200, 'Client Found', { clientId: _id, accessToken });
             else throw new Error('DB Server Error');
         }
         else {

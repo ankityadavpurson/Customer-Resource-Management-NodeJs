@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
+const Nexmo = require('nexmo');
 
 const Customer = require('../model/customer');
 const BillList = require('../model/billList');
@@ -107,7 +108,7 @@ async function saveBill(clientId, mobileNo, bill, _res, name, email) {
 
     // Send Bill to customer
     // via mail
-    // await sendMail(clientId, mobileNo, bill);
+    await sendMail(clientId, mobileNo, bill);
     // via SMS
     // await sendSMS(mobileNo, name);
 
