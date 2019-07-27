@@ -50,7 +50,7 @@ Replace the `MONGO_URL` with 'mongodb://localhost:27017'
 const MONGO_URL = 'mongodb://localhost:27017';
 ```
 
-The given url in the code of MongoDB Atlas cloud database.<br>
+The given url in the code is of MongoDB Atlas cloud database.<br>
 Follow the link create an Atlas Account- <br>
 
 * [MongoDBAtlas][] - Getting Started with MongoDB Atlas
